@@ -29,10 +29,18 @@ def prompt(message)
   puts "=> #{message}"
 end
 
+def marquee
+  system 'clear' or system 'cls'
+  puts " -------------------"
+  puts "|                   |"
+  puts "|    Tic-Tac-Toe    |"
+  puts "|                   |"
+  puts " -------------------"
+end
+
 # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
 def display_board(board)
-  system 'clear' or system 'cls'
-  puts "Tic-Tac-Toe"
+  marquee
   puts "You're #{PLAYER_MARKER} and the computer is #{COMPUTER_MARKER}"
   puts ""
   puts "     |     |"
@@ -87,7 +95,7 @@ end
 def player_turn!(board)
   input = ''
   loop do
-    prompt("Enter: #{joinor(open_squares(board), ',')}")
+    prompt("It's your turn. Enter: #{joinor(open_squares(board), ',')}")
     input = gets.chomp.to_i
     break if valid_input?(input, board)
     prompt('Sorry, that\'s not a valid choice')
@@ -96,18 +104,18 @@ def player_turn!(board)
 end
 
 def line_rating(line)
-  return 1 if line.empty?
+  return 2 if line.empty?
   if line.size == 1
-    line.first == COMPUTER_MARKER ? 5 : 2
+    line.first == COMPUTER_MARKER ? 10 : 4
   elsif line.uniq.size == 1
-    line.uniq.first == COMPUTER_MARKER ? 23 : 11
+    line.uniq.first == COMPUTER_MARKER ? 45 : 22
   else
-    0
+    1
   end
 end
 
 def computer_turn!(board)
-  square_ratings = (1..9).each_with_object({}) { |x, hsh| hsh[x] = 0 }
+  square_ratings = (1..9).each_with_object({}) { |x, hsh| hsh[x] = -1 }
   open_squares(board).each do |square|
     WINNING_LINES.select { |a| a.include?(square) }.each do |line|
       line = line.map { |x| board[x] }.reject { |y| y == ' ' }
@@ -128,13 +136,18 @@ def alternate_player(current_player)
 end
 
 loop do
+  marquee
   board = initialize_board
+
   current_player = COMPUTER
+  prompt("Would you like to play offense or defense? (o or D)")
+  current_player = PLAYER if gets.chomp.downcase == 'o'
 
   loop do
-    place_piece!(board, current_player)
-    current_player = alternate_player(current_player)
     display_board(board)
+    place_piece!(board, current_player)
+    display_board(board)
+    current_player = alternate_player(current_player)
     break if winner?(board) || board_full?(board)
   end
 
