@@ -140,8 +140,8 @@ loop do
   board = initialize_board
 
   current_player = COMPUTER
-  prompt("Would you like to play offense or defense? (o or D)")
-  current_player = PLAYER if gets.chomp.downcase == 'o'
+  prompt("Would you like to play first? (y or N)")
+  current_player = PLAYER if gets.chomp.downcase.start_with?('y')
 
   loop do
     display_board(board)
