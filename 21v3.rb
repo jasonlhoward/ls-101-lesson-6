@@ -7,6 +7,7 @@ SUITS = [
 RANKS = { 'A' => 1, 'J' => 10, 'Q' => 10, 'K' => 10 }
 DEALER_STAYS = 17
 WINS_ROUND = 21
+WINS_MATCH = 5
 MIDDOT = ['00B7'.hex].pack("U")
 
 def joinand(arr)
@@ -173,13 +174,13 @@ def compare_cards_and_declare_winner(player, dealer, score)
 end
 
 def match_winner?(score)
-  score[:dealer] >= 5 || score[:player] >= 5
+  score[:dealer] >= WINS_MATCH || score[:player] >= WINS_MATCH
 end
 
 def compare_scores_and_declare_match_winner(score)
   player_score = score[:player]
   dealer_score = score[:dealer]
-  if dealer_score >= 5
+  if dealer_score >= WINS_MATCH
     puts "You've LOST the match #{dealer_score} to #{player_score}"
   else
     puts "You've WON the match to #{player_score} to #{dealer_score}"
