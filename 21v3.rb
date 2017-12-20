@@ -1,14 +1,14 @@
 SUITS = [
-  ['2660'.hex].pack("U"), # spade
-  ['2665'.hex].pack("U"), # heart
-  ['2666'.hex].pack("U"), # diamond
-  ['2663'.hex].pack("U")  # club
+  "\u{2660}".encode('utf-8'), # Unicode spade - ♠
+  "\u{2665}".encode('utf-8'), # Unicode heart - ♥
+  "\u{2666}".encode('utf-8'), # Unicode diamond - ♦
+  "\u{2663}".encode('utf-8')  # Unicode club - ♣
 ]
 RANKS = { 'A' => 1, 'J' => 10, 'Q' => 10, 'K' => 10 }
 DEALER_STAYS = 17
 WINS_ROUND = 21
 WINS_MATCH = 5
-MIDDOT = ['00B7'.hex].pack("U")
+MIDDOT = "\u{00B7}".encode('utf-8')
 
 def joinand(arr)
   first = arr.first
